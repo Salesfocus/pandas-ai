@@ -385,6 +385,83 @@ class BaseAgent:
 
         self.logger.log("Agent successfully trained on the data")
 
+    def trainQueries(
+        self,
+        queries: Optional[List[str]] = None,
+        codes: Optional[List[str]] = None,
+        ids: Optional[List[str]] = None,
+        metadatas: Optional[List[dict]] = None
+    ) -> None:
+        """
+        Trains the context to be passed to model
+        Args:
+            queries (Optional[str], optional): user user
+            codes (Optional[str], optional): generated code
+            ids (Optional[List[str]], optional): ids
+            metadatas (Optional[List[str]], optional): metadatas
+        Raises:
+            ImportError: if default vector db lib is not installed it raises an error
+        """
+        if self._vectorstore is None:
+            raise MissingVectorStoreError(
+                "No vector store provided. Please provide a vector store to train the agent."
+            )
+
+        if (queries and not codes) or (not queries and codes):
+            raise ValueError(
+                "If either queries or codes are provided, both must be provided."
+            )
+        
+        if ids is not None and len(ids) != len(queries):
+            raise ValueError(
+                "If ids are provided, the number of ids must match the number of queries."
+            )
+        
+        if metadatas is not None and len(metadatas) != len(queries):
+            raise ValueError(
+                "If metadatas are provided, the number of metadatas must match the number of queries."
+            )
+        
+        if queries and codes:
+            self._vectorstore.add_question_answer(queries, codes, ids, metadatas)
+
+        self.logger.log("Agent successfully trained on the data")
+
+    def trainDocs(
+        self,
+        docs: Optional[List[str]] = None,
+        ids: Optional[List[str]] = None,
+        metadatas: Optional[List[dict]] = None
+    ) -> None:
+        """
+        Trains the context to be passed to model
+        Args:
+            docs (Optional[List[str]], optional): additional docs
+            ids (Optional[List[str]], optional): ids
+            metadatas (Optional[List[str]], optional): metadatas
+        Raises:
+            ImportError: if default vector db lib is not installed it raises an error
+        """
+        if self._vectorstore is None:
+            raise MissingVectorStoreError(
+                "No vector store provided. Please provide a vector store to train the agent."
+            )
+        
+        if ids is not None and len(ids) != len(docs):
+            raise ValueError(
+                "If ids are provided, the number of ids must match the number of queries."
+            )
+        
+        if metadatas is not None and len(metadatas) != len(docs):
+            raise ValueError(
+                "If metadatas are provided, the number of metadatas must match the number of queries."
+            )
+        
+        if docs is not None:
+            self._vectorstore.add_docs(docs)
+
+        self.logger.log("Agent successfully trained on the data")
+
     def clear_memory(self):
         """
         Clears the memory
