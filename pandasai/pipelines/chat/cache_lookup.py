@@ -36,11 +36,11 @@ class CacheLookup(BaseLogicUnit):
                 pipeline_context.cache.get_cache_key(pipeline_context)
             )
         ):
-            logger.log("Using cached response")
+            
+            key = pipeline_context.cache.get_cache_key(pipeline_context)
+            logger.log("Using cached response for key: " + key)
 
-            code = pipeline_context.cache.get(
-                pipeline_context.cache.get_cache_key(pipeline_context)
-            )
+            code = pipeline_context.cache.get(key)
 
             pipeline_context.add("found_in_cache", True)
 

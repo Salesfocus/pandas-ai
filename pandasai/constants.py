@@ -18,6 +18,11 @@ DEFAULT_FILE_PERMISSIONS = 0o755
 # Token needed to invalidate the cache after breaking changes
 CACHE_TOKEN = "pandasai1"
 
+POSTGRES_CONNECTION = {"host":"localhost",
+                "database":"postgres",
+                "user":"postgres",
+                "password":""}
+
 # List of Python builtin libraries that are added to the environment by default.
 WHITELISTED_BUILTINS = [
     "abs",

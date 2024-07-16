@@ -1,6 +1,6 @@
 from typing import Any, List, Optional, Union
 
-from pandasai.helpers.cache import Cache
+from pandasai.helpers.pgcache import Cache
 from pandasai.helpers.memory import Memory
 from pandasai.helpers.skills_manager import SkillsManager
 from pandasai.schemas.df_config import Config
@@ -16,9 +16,11 @@ class PipelineContext:
 
     def __init__(
         self,
+        data_source: str,
         dfs: List[BaseConnector],
         config: Optional[Union[Config, dict]] = None,
         memory: Optional[Memory] = None,
+        normalized_memory: Optional[Memory] = None,
         skills_manager: Optional[SkillsManager] = None,
         cache: Optional[Cache] = None,
         vectorstore: VectorStore = None,
@@ -29,12 +31,15 @@ class PipelineContext:
 
         self.dfs = dfs
         self.memory = memory or Memory()
+        self.normalized_memory = normalized_memory or Memory()
         self.skills_manager = skills_manager or SkillsManager()
 
         if config.enable_cache:
             self.cache = cache if cache is not None else Cache()
         else:
             self.cache = None
+
+        self.data_source = data_source
 
         self.config = config
 

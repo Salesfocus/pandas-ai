@@ -43,6 +43,7 @@ class BaseAgent:
 
     def __init__(
         self,
+        data_source: str,
         dfs: Union[
             pd.DataFrame, BaseConnector, List[Union[pd.DataFrame, BaseConnector]]
         ],
@@ -73,9 +74,11 @@ class BaseAgent:
         # Instantiate the context
         self.config = self.get_config(config)
         self.context = PipelineContext(
+            data_source=data_source,
             dfs=self.dfs,
             config=self.config,
             memory=Memory(memory_size, agent_info=description),
+            normalized_memory=Memory(memory_size, agent_info=description),
             vectorstore=vectorstore,
         )
 
@@ -476,6 +479,14 @@ class BaseAgent:
         need to add a message from the agent).
         """
         self.context.memory.add(message, is_user=is_user)
+    
+    def add_normalized_message(self, message, is_user=False):
+        """
+        Add message to the memory. This is useful when you want to add a message
+        to the memory without calling the chat function (for example, when you
+        need to add a message from the agent).
+        """
+        self.context.normalized_memory.add(message, is_user=is_user)
 
     def assign_prompt_id(self):
         """Assign a prompt ID"""

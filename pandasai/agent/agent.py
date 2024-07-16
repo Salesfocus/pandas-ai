@@ -14,6 +14,7 @@ from pandasai.vectorstores.vectorstore import VectorStore
 class Agent(BaseAgent):
     def __init__(
         self,
+        data_source: str,
         dfs: Union[
             pd.DataFrame, BaseConnector, List[Union[pd.DataFrame, BaseConnector]]
         ],
@@ -26,7 +27,7 @@ class Agent(BaseAgent):
         security: BaseSecurity = None,
     ):
         super().__init__(
-            dfs, config, memory_size, vectorstore, description, security=security
+            data_source, dfs,  config, memory_size, vectorstore, description, security=security
         )
 
         self.pipeline = (
