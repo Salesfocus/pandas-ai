@@ -72,10 +72,11 @@ class Cache:
 
         check_query = '''
             SELECT code_executed FROM promptmaster
-            WHERE data_source = %s AND dataframe_hash = %s AND normalized_question = %s
+            WHERE data_source = %s AND dataframe_hash = %s AND normalized_question = %s AND bad_code is null 
         '''
-        question = parts[2][parts[2].index("'") + 1:parts[2].rindex("'")]
-        question = question.replace("'", "")
+         # question = parts[2][parts[2].index("'") + 1:parts[2].rindex("'")]
+        question = parts[2]
+        question = question.replace("### QUERY\n ", "")
         cursor.execute(check_query, (parts[0], parts[1], question))
         question_exists = cursor.fetchone()
 
