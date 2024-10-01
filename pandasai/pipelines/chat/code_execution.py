@@ -82,6 +82,16 @@ class CodeExecution(BaseLogicUnit):
         result = None
         while retry_count <= self.context.config.max_retries:
             try:
+                if(".groupby" not in code_to_run):
+                    exc = "groupby() statement is missing. Group the data by "
+                    # Find all the dimension columns in self._dfs
+                    for df in self._dfs:
+                        for col in df.pandas_df.columns:
+                            if df.pandas_df[col].dtype == 'object' and "'" + col + "'" in code_to_run:
+                                exc = exc + "'" + col + "', "
+                    raise Exception(exc)
+
+
                 result = self.execute_code(code_to_run, code_context)
                 if self.context.get("output_type") != "" and (
                     output_helper := self.context.get("output_type")
