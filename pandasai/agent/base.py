@@ -266,6 +266,18 @@ class BaseAgent:
 
         try:
             self.logger.log(f"Question: {query}")
+
+            columns = ""
+            i = 0
+            for df in self.dfs:
+                i += 1
+                columns += f"Dataframe {i}: "
+                for col in df.pandas_df.columns:
+                    col = str(col)
+                    coltype = df.pandas_df[col].dtype
+                    columns += f"{col} ({coltype}), "
+
+
             self.logger.log(
                 f"Running PandasAI with {self.context.config.llm.type} LLM..."
             )
