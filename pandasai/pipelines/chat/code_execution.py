@@ -82,7 +82,7 @@ class CodeExecution(BaseLogicUnit):
         result = None
         while retry_count <= self.context.config.max_retries:
             try:
-                if(".groupby" not in code_to_run):
+                if(self.context.enforce_grouping and ".groupby" not in code_to_run):
                     exc = "groupby() statement is missing. Group the data by "
                     # Find all the dimension columns in self._dfs
                     for df in self._dfs:

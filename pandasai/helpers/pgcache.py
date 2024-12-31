@@ -51,40 +51,43 @@ class Cache:
         pass
 
     def get(self, key: str) -> str:
-        """Get a value from the cache.
+        try:
+            """Get a value from the cache.
 
-        Args:
-            key (str): key to get the value from the cache.
+            Args:
+                key (str): key to get the value from the cache.
 
-        Returns:
-            str: value from the cache.
-        """
-        parts = key.split("~")
+            Returns:
+                str: value from the cache.
+            """
+            parts = key.split("~")
 
-        conn = psycopg2.connect(
-            host=POSTGRES_CONNECTION["host"],
-                database=POSTGRES_CONNECTION["database"],
-                user=POSTGRES_CONNECTION["user"],
-                password=POSTGRES_CONNECTION["password"]
-        )
+            conn = psycopg2.connect(
+                host=POSTGRES_CONNECTION["host"],
+                    database=POSTGRES_CONNECTION["database"],
+                    user=POSTGRES_CONNECTION["user"],
+                    password=POSTGRES_CONNECTION["password"]
+            )
 
-        cursor = conn.cursor()
+            cursor = conn.cursor()
 
-        check_query = '''
-            SELECT code_executed FROM promptmaster
-            WHERE data_source = %s AND dataframe_hash = %s AND normalized_question = %s AND bad_code is null 
-        '''
-         # question = parts[2][parts[2].index("'") + 1:parts[2].rindex("'")]
-        question = parts[2]
-        question = question.replace("### QUERY\n ", "")
-        cursor.execute(check_query, (parts[0], parts[1], question))
-        question_exists = cursor.fetchone()
+            check_query = '''
+                SELECT code_executed FROM promptmaster
+                WHERE data_source = %s AND dataframe_hash = %s AND normalized_question = %s AND bad_code is null 
+            '''
+            # question = parts[2][parts[2].index("'") + 1:parts[2].rindex("'")]
+            question = parts[2]
+            question = question.replace("### QUERY\n ", "")
+            cursor.execute(check_query, (parts[0], parts[1], question))
+            question_exists = cursor.fetchone()
 
-        
-        if question_exists == None:
-          return None
-        else:
-          return question_exists[0]
+            
+            if question_exists == None:
+                return None
+            else:
+                return question_exists[0]
+        except Exception as e:
+            return None
 
     def delete(self, key: str) -> None:
         # """Delete a key value pair from the cache.

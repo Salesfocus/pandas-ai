@@ -18,6 +18,7 @@ class PipelineContext:
         self,
         data_source: str,
         dfs: List[BaseConnector],
+        enforce_grouping: Optional[bool] = False,
         config: Optional[Union[Config, dict]] = None,
         memory: Optional[Memory] = None,
         normalized_memory: Optional[Memory] = None,
@@ -31,6 +32,7 @@ class PipelineContext:
 
         self.dfs = dfs
         self.memory = memory or Memory()
+        self.enforce_grouping = enforce_grouping
         self.normalized_memory = normalized_memory or Memory()
         self.skills_manager = skills_manager or SkillsManager()
 

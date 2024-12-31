@@ -47,6 +47,7 @@ class BaseAgent:
         dfs: Union[
             pd.DataFrame, BaseConnector, List[Union[pd.DataFrame, BaseConnector]]
         ],
+        enforce_grouping: Optional[bool] = False,
         config: Optional[Union[Config, dict]] = None,
         memory_size: Optional[int] = 10,
         vectorstore: Optional[VectorStore] = None,
@@ -76,6 +77,7 @@ class BaseAgent:
         self.context = PipelineContext(
             data_source=data_source,
             dfs=self.dfs,
+            enforce_grouping=enforce_grouping,
             config=self.config,
             memory=Memory(memory_size, agent_info=description),
             normalized_memory=Memory(memory_size, agent_info=description),

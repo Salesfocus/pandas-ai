@@ -18,6 +18,7 @@ class Agent(BaseAgent):
         dfs: Union[
             pd.DataFrame, BaseConnector, List[Union[pd.DataFrame, BaseConnector]]
         ],
+        enforce_grouping: Optional[bool] = False,
         config: Optional[Union[Config, dict]] = None,
         memory_size: Optional[int] = 10,
         pipeline: Optional[Type[GenerateChatPipeline]] = None,
@@ -27,7 +28,7 @@ class Agent(BaseAgent):
         security: BaseSecurity = None,
     ):
         super().__init__(
-            data_source, dfs,  config, memory_size, vectorstore, description, security=security
+            data_source, dfs,enforce_grouping,  config, memory_size, vectorstore, description, security=security
         )
 
         self.pipeline = (
