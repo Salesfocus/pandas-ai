@@ -256,7 +256,7 @@ class BaseAgent:
         ]
         return any(module in query for module in dangerous_modules)
 
-    def chat(self, query: str, output_type: Optional[str] = None):
+    def chat(self, query: str, enforce_grouping:Optional[bool] = False, output_type: Optional[str] = None):
         """
         Simulate a chat interaction with the assistant on Dataframe.
         """
@@ -297,7 +297,9 @@ class BaseAgent:
             pipeline_input = ChatPipelineInput(
                 query, output_type, self.conversation_id, self.last_prompt_id
             )
-
+            
+            self.pipeline.code_execution_pipeline._context.enforce_grouping = enforce_grouping
+            
             return self.pipeline.run(pipeline_input)
 
         except Exception as exception:
