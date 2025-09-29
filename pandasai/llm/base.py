@@ -403,7 +403,7 @@ class BaseGoogle(LLM):
     temperature: Optional[float] = 0
     top_p: Optional[float] = 0.8
     top_k: Optional[int] = 40
-    max_output_tokens: Optional[int] = 1000
+    max_output_tokens: Optional[int] = 20000
 
     def _valid_params(self):
         return ["temperature", "top_p", "top_k", "max_output_tokens"]

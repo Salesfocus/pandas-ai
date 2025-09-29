@@ -24,7 +24,7 @@ class GoogleGemini(BaseGoogle):
 
     """
 
-    model: str = "models/gemini-pro"
+    model: str = "gemini-2.5-flash"
     google_gemini: Any
 
     def __init__(self, api_key: str, **kwargs):
