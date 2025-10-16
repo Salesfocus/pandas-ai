@@ -38,7 +38,10 @@ if TYPE_CHECKING:
 
 
 class LLM:
+    
     """Base class to implement a new LLM."""
+    
+    completion = ""
 
     last_prompt: Optional[str] = None
 

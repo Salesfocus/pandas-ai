@@ -87,7 +87,7 @@ class GoogleGemini(BaseGoogle):
         updated_prompt = self.prepend_system_prompt(prompt, memory)
 
         self.last_prompt = updated_prompt
-        completion = self.google_gemini.generate_content(
+        self.completion = self.google_gemini.generate_content(
             contents=prompt,
             generation_config=dict(
                 {
@@ -98,8 +98,9 @@ class GoogleGemini(BaseGoogle):
                 }
             ),
         )
+        
 
-        return completion.text
+        return self.completion.text
 
     @property
     def type(self) -> str:

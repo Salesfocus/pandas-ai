@@ -34,6 +34,11 @@ class CodeGenerator(BaseLogicUnit):
 
         pipeline_context.add("last_code_generated", code)
         logger.log(
+            f"""LLM Completion:
+            {pipeline_context.config.llm.completion}
+            """
+        )
+        logger.log(
             f"""Prompt used:
             {pipeline_context.config.llm.last_prompt}
             """
