@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
+#MARS-Padas-AI branch rebase script
 # Update the local branch MARS-Pandas-AI with upstream/main while preserving local commits.
 
 REPO_DIR="/Volumes/MAC_EXT/My_Home/code/MARS-AI/MARS-AI/pandas-ai"
